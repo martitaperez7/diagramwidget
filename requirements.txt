@@ -1,0 +1,7 @@
+# Visual Study Assistant — Python dependencies
+# Install with: pip install -r requirements.txt
+
+PyQt5==5.15.10          # Desktop UI framework
+PyQtWebEngine==5.15.6   # For rendering HTML diagrams (Mermaid) — added in Step 4
+requests==2.31.0        # For calling Claude API and Ollama
+anthropic==0.25.0       # Official Anthropic Python SDK
