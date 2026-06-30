@@ -1,0 +1,23 @@
+# Secrets - never commit (NFR-13 / NFR-14)
+.env
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Packaging output
+build/
+dist/
+*.spec
+
+# OS / editor cruft
+.DS_Store
+.vscode/
+.idea/
+dist/
+build/
+DiagramTutor-for-Noel/
+*.zip
+*.app
