@@ -1,173 +1,221 @@
-"""
-ui/styles.py
--------------
-Centralized dark-theme styling for the whole app (NFR-08: consistent dark
-theme everywhere) plus hover/focus states for every interactive element
-(NFR-07).
+# ui/styles.py
+# =============================================================
+# UMBC Whimsy Academia Theme — Diagram Tutor
+# =============================================================
+#
+# Palette:
+#   UMBC Black   #0D0D0D  — deep background
+#   UMBC Gold    #F0B400  — primary accent, titles, highlights
+#   Parchment    #FAF3DC  — warm off-white for AI text (feels academic)
+#   Charcoal     #1C1C1C  — panel / bubble backgrounds
+#   Slate        #2A2A2A  — input field background
+#   Dim Gold     #7A5C00  — muted gold for secondary text
+#   White        #FFFFFF  — user bubble text
+#   Error Red    #C0392B  — error banner
+#
+# Whimsy touches:
+#   - Gold border accent on the title bar
+#   - Slightly rounded corners everywhere (8-12px)
+#   - Parchment-toned AI bubbles (like aged paper)
+#   - Gold send button
+#   - Italic placeholder text
+# =============================================================
 
-Keeping all colors and QSS (Qt's CSS-like styling language) in ONE file
-means that if we ever want to re-theme the app, we only have to edit this
-file instead of hunting through every widget.
-"""
+MAIN_STYLESHEET = """
 
-# ---------------------------------------------------------------------------
-# Color palette - change these values to re-theme the entire app.
-# ---------------------------------------------------------------------------
-COLOR_BG_PANEL = "#1e1f26"          # main panel background
-COLOR_BG_TITLEBAR = "#15161b"       # title bar background
-COLOR_BG_CHAT = "#23242c"           # chat scroll area background
-COLOR_BUBBLE_USER = "#3b82f6"       # right-aligned user bubble (blue, FR-08)
-COLOR_BUBBLE_AI = "#3a3b44"         # left-aligned AI bubble (grey, FR-09)
-COLOR_TEXT_PRIMARY = "#f5f5f7"
-COLOR_TEXT_SECONDARY = "#a0a0ab"
-COLOR_BORDER = "#33343d"
-COLOR_ACCENT = "#3b82f6"
-COLOR_ACCENT_HOVER = "#5a93f7"
-COLOR_ERROR = "#e35d6a"
-COLOR_INPUT_BG = "#2a2b33"
+/* ── Root panel ──────────────────────────────────────────── */
+QWidget#FloatingPanel {
+    background-color: #0D0D0D;
+    border: 1px solid #F0B400;
+    border-radius: 12px;
+}
 
+/* ── Title bar ───────────────────────────────────────────── */
+QWidget#TitleBar {
+    background-color: #0D0D0D;
+    border-bottom: 2px solid #F0B400;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
 
-# ---------------------------------------------------------------------------
-# Master stylesheet applied to the whole floating panel (QSS).
-# ---------------------------------------------------------------------------
-MAIN_STYLESHEET = f"""
-QWidget#FloatingPanel {{
-    background-color: {COLOR_BG_PANEL};
-    border-radius: 10px;
-}}
-
-QWidget#TitleBar {{
-    background-color: {COLOR_BG_TITLEBAR};
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-}}
-
-QLabel#TitleLabel {{
-    color: {COLOR_TEXT_PRIMARY};
-    font-weight: 600;
+QLabel#TitleLabel {
+    color: #F0B400;
+    font-family: Georgia, serif;
     font-size: 13px;
-    padding-left: 8px;
-}}
+    font-weight: bold;
+    letter-spacing: 1px;
+}
 
-QPushButton#TitleBarButton {{
+/* ── Title bar buttons (minimize / close) ────────────────── */
+QPushButton#TitleBarButton {
     background-color: transparent;
-    color: {COLOR_TEXT_SECONDARY};
-    border: none;
-    font-size: 14px;
+    color: #F0B400;
+    border: 1px solid #7A5C00;
     border-radius: 4px;
-}}
-
-QPushButton#TitleBarButton:hover {{
-    background-color: {COLOR_BORDER};
-    color: {COLOR_TEXT_PRIMARY};
-}}
-
-QPushButton#TitleBarButton:focus {{
-    outline: 2px solid {COLOR_ACCENT};
-}}
-
-QScrollArea#ChatScrollArea, QWidget#ChatContainer {{
-    background-color: {COLOR_BG_CHAT};
-    border: none;
-}}
-
-QLabel#UserBubble {{
-    background-color: {COLOR_BUBBLE_USER};
-    color: white;
-    border-radius: 12px;
-    padding: 8px 12px;
-}}
-
-QLabel#AIBubble {{
-    background-color: {COLOR_BUBBLE_AI};
-    color: {COLOR_TEXT_PRIMARY};
-    border-radius: 12px;
-    padding: 8px 12px;
-}}
-
-QLabel#TypingIndicator {{
-    color: {COLOR_TEXT_SECONDARY};
-    font-style: italic;
-    padding: 4px 12px;
-}}
-
-QLineEdit#MessageInput {{
-    background-color: {COLOR_INPUT_BG};
-    color: {COLOR_TEXT_PRIMARY};
-    border: 1px solid {COLOR_BORDER};
-    border-radius: 8px;
-    padding: 8px;
-    font-size: 13px;
-}}
-
-QLineEdit#MessageInput:focus {{
-    border: 1px solid {COLOR_ACCENT};
-}}
-
-QLineEdit#MessageInput:disabled {{
-    color: {COLOR_TEXT_SECONDARY};
-    background-color: {COLOR_BG_PANEL};
-}}
-
-QPushButton#SendButton {{
-    background-color: {COLOR_ACCENT};
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 8px 14px;
-    font-weight: 600;
-}}
-
-QPushButton#SendButton:hover {{
-    background-color: {COLOR_ACCENT_HOVER};
-}}
-
-QPushButton#SendButton:disabled {{
-    background-color: {COLOR_BORDER};
-    color: {COLOR_TEXT_SECONDARY};
-}}
-
-QLabel#ErrorBanner {{
-    background-color: rgba(227, 93, 106, 0.15);
-    color: {COLOR_ERROR};
-    border: 1px solid {COLOR_ERROR};
-    border-radius: 8px;
-    padding: 6px 10px;
     font-size: 12px;
-}}
+    font-weight: bold;
+}
+QPushButton#TitleBarButton:hover {
+    background-color: #F0B400;
+    color: #0D0D0D;
+}
+QPushButton#TitleBarButton:pressed {
+    background-color: #C49200;
+}
 
-QLabel#DiagramPlaceholder {{
-    background-color: {COLOR_BG_CHAT};
-    color: {COLOR_TEXT_SECONDARY};
-    border: 1px dashed {COLOR_BORDER};
-    border-radius: 8px;
-    padding: 16px;
-    font-style: italic;
-}}
+/* ── Scroll area + chat container ────────────────────────── */
+QScrollArea#ChatScrollArea {
+    background-color: #0D0D0D;
+    border: none;
+}
+QWidget#ChatContainer {
+    background-color: #0D0D0D;
+}
 
-QScrollBar:vertical {{
-    background: {COLOR_BG_CHAT};
-    width: 10px;
+/* ── Scrollbar ───────────────────────────────────────────── */
+QScrollBar:vertical {
+    background: #1C1C1C;
+    width: 6px;
+    border-radius: 3px;
     margin: 0px;
-}}
-
-QScrollBar::handle:vertical {{
-    background: {COLOR_BORDER};
-    border-radius: 5px;
+}
+QScrollBar::handle:vertical {
+    background: #F0B400;
+    border-radius: 3px;
     min-height: 20px;
-}}
-
-QScrollBar::handle:vertical:hover {{
-    background: {COLOR_ACCENT};
-}}
-
-QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {{
+}
+QScrollBar::add-line:vertical,
+QScrollBar::sub-line:vertical {
     height: 0px;
-}}
+}
 
-QSizeGrip {{
+/* ── AI message bubble (parchment / aged paper) ──────────── */
+/* Targets QWidget now — the whole bubble box, not individual labels */
+QWidget#AIBubble {
+    background-color: #1E1A0E;
+    border: 1px solid #7A5C00;
+    border-radius: 10px;
+    border-top-left-radius: 2px;
+}
+
+/* ── User message bubble ─────────────────────────────────── */
+QLabel#UserBubble {
+    background-color: #F0B400;
+    color: #0D0D0D;
+    border-radius: 10px;
+    border-bottom-right-radius: 2px;
+    padding: 10px 12px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* ── Typing indicator ────────────────────────────────────── */
+QLabel#TypingIndicator {
+    color: #7A5C00;
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: 11px;
+    padding: 4px 8px;
+}
+
+/* ── Diagram section label ───────────────────────────────── */
+QLabel#DiagramSectionLabel {
+    color: #F0B400;
+    font-family: Georgia, serif;
+    font-size: 11px;
+    font-style: italic;
+    letter-spacing: 0.5px;
+    padding: 6px 0px 2px 2px;
+}
+
+/* ── Diagram loading placeholder ─────────────────────────── */
+QLabel#DiagramPlaceholder {
+    background-color: #1C1C1C;
+    color: #7A5C00;
+    border: 1px dashed #7A5C00;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: 11px;
+    min-height: 40px;
+    max-height: 60px;
+}
+
+/* ── Read more button ────────────────────────────────────── */
+QPushButton#ReadMoreButton {
     background-color: transparent;
-    width: 16px;
-    height: 16px;
-}}
+    color: #F0B400;
+    border: 1px solid #7A5C00;
+    border-radius: 6px;
+    padding: 3px 10px;
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: 11px;
+    text-align: left;
+}
+QPushButton#ReadMoreButton:hover {
+    background-color: #1E1A0E;
+    border-color: #F0B400;
+}
+
+/* ── Input field ─────────────────────────────────────────── */
+QLineEdit#MessageInput {
+    background-color: #1C1C1C;
+    color: #FAF3DC;
+    border: 1px solid #7A5C00;
+    border-radius: 8px;
+    padding: 7px 12px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 12px;
+    selection-background-color: #F0B400;
+    selection-color: #0D0D0D;
+}
+QLineEdit#MessageInput:focus {
+    border: 1px solid #F0B400;
+}
+QLineEdit#MessageInput::placeholder {
+    color: #555555;
+    font-style: italic;
+}
+QLineEdit#MessageInput:disabled {
+    color: #444444;
+    border-color: #333333;
+}
+
+/* ── Send button ─────────────────────────────────────────── */
+QPushButton#SendButton {
+    background-color: #F0B400;
+    color: #0D0D0D;
+    border: none;
+    border-radius: 8px;
+    padding: 7px 16px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+}
+QPushButton#SendButton:hover {
+    background-color: #FFD000;
+}
+QPushButton#SendButton:pressed {
+    background-color: #C49200;
+}
+QPushButton#SendButton:disabled {
+    background-color: #3A3000;
+    color: #666600;
+}
+
+/* ── Error banner ────────────────────────────────────────── */
+QLabel#ErrorBanner {
+    background-color: #2A0A0A;
+    color: #E74C3C;
+    border: 1px solid #C0392B;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 11px;
+    margin: 0px 10px;
+}
+
 """
